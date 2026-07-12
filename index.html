@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aasraa Skillability Centre - Computer Application Test</title>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Poppins:wght@400;500;600;700&display=swap');
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #FF6B6B 0%, #4ECDC4 50%, #FFE66D 100%); min-height: 100vh; padding: 20px; display: flex; align-items: center; justify-content: center; }
+ .container { max-width: 900px; width: 100%; background: white; padding: 40px; border-radius: 25px; box-shadow: 0 25px 80px rgba(0,0,0,0.3); }
+ .center-heading { text-align: center; font-family: 'Montserrat', sans-serif; font-size: 38px; font-weight: 800; background: linear-gradient(90deg, #FF6B6B, #4ECDC4, #FFE66D); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 5px; }
+ .quiz-heading { text-align: center; font-size: 16px; color: #FF6B6B; font-weight: 700; margin-bottom: 25px; text-transform: uppercase; }
+    h1, h2 { text-align: center; color: #2c3e50; margin-bottom: 25px; font-size: 28px; }
+    button { background: linear-gradient(135deg, #FF6B6B 0%, #4ECDC4 100%); color: white; border: none; padding: 16px 24px; border-radius: 14px; cursor: pointer; margin: 12px 0; width: 100%; font-size: 17px; font-weight: 600; }
+    input { width: 100%; padding: 14px 16px; margin: 10px 0; border: 2px solid #e0e0e0; border-radius: 12px; font-size: 16px; }
+ .question { margin: 25px 0; padding: 25px; background: #f8f9fa; border-radius: 18px; border-left: 6px solid #FF6B6B; }
+ .option { display:flex; align-items:flex-start; gap:12px; margin:12px 0; padding:15px 20px; background:white; border:2px solid #e0e0e0; border-radius:14px; cursor:pointer;}
+.option input[type="radio"]{width:18px;height:18px;margin:2px 0 0 0;flex-shrink:0;}
+.option{line-height:1.5;}
+ .hidden { display: none; }
+    #result { font-size: 24px; font-weight: 700; text-align: center; color: #00C853; margin: 25px 0; line-height: 2; }
+ .topbar { display: flex; justify-content: space-between; margin-bottom: 20px; font-weight: 600; }
+ .progress-bar { width: 100%; height: 14px; background: #e0e0e0; border-radius: 10px; margin: 20px 0; }
+ .progress { height: 100%; background: linear-gradient(90deg, #FF6B6B, #FFE66D); border-radius: 10px; }
+ .correct { background: #C8E6C9!important; border-color: #4CAF50!important; }
+ .wrong { background: #FFCDD2!important; border-color: #F44336!important; }
+ .timer { color: #D50000; font-size: 20px; font-weight: 700; background: #FFEBEE; padding: 10px 18px; border-radius: 12px; }
+ .topic-card { background: linear-gradient(135deg, #FF6B6B 0%, #4ECDC4 100%); color: white; padding: 28px; border-radius: 20px; margin: 18px 0; cursor: pointer; }
+    a { color: #FF6B6B; text-decoration: none; font-weight: 600; }
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+</style>
+</head>
+<body>
+<main class="container" role="main">
+    <h1 class="center-heading">Aasraa Skillability Centre</h1>
+    <p class="quiz-heading">COMPUTER APPLICATION PRACTICE TEST</p>
+    <hr style="margin:20px 0;">
+
+    <div id="registerPage">
+        <h2>📝 Student Registration</h2>
+        <label class="sr-only" for="regName">Full name</label>
+        <input type="text" id="regName" placeholder="Enter Your Full Name" aria-label="Full name" required>
+        <label class="sr-only" for="regEmail">Email address</label>
+        <input type="email" id="regEmail" placeholder="Enter Email Address" aria-label="Email address" required>
+        <label class="sr-only" for="regPass">Password</label>
+        <input type="password" id="regPass" placeholder="Create Password" aria-label="Password" required>
+        <button type="button" onclick="register()">Create Account</button>
+        <p style="text-align:center; margin-top:15px;">Already have account? <a href="#" onclick="showLogin()">Login Here</a></p>
+    </div>
+
+    <div id="loginPage" class="hidden">
+        <h2>🔐 Student Login</h2>
+        <label class="sr-only" for="logEmail">Login email</label>
+        <input type="email" id="logEmail" placeholder="Enter Email" aria-label="Login email" required>
+        <label class="sr-only" for="logPass">Login password</label>
+        <input type="password" id="logPass" placeholder="Enter Password" aria-label="Login password" required>
+        <button type="button" onclick="login()">Login</button>
+        <p style="text-align:center; margin-top:15px;">New Student? <a href="#" onclick="showRegister()">Register Here</a></p>
+    </div>
+
+    <div id="topicPage" class="hidden">
+        <h2>📚 Choose Any One Topic</h2>
+        <button type="button" class="topic-card" onclick="startQuiz('html')"><h2>HTML</h2><p>20 Questions • 4 Options • 10 Minutes</p></button>
+        <button type="button" class="topic-card" onclick="startQuiz('python')"><h2>Python</h2><p>20 Questions • 4 Options • 10 Minutes</p></button>
+        <button type="button" class="topic-card" onclick="startQuiz('excel')"><h2>Excel</h2><p>20 Questions • 4 Options • 10 Minutes</p></button>
+    </div>
+
+    <div id="quizPage" class="hidden">
+        <div class="topbar">
+            <span id="progressText">Answered: 0 of 20</span>
+            <span class="timer" id="timer">Time: 10:00</span>
+        </div>
+        <div class="progress-bar"><div class="progress" id="progressBar"></div></div>
+        <h2 id="topicTitle"></h2>
+        <div id="quizBox"></div>
+        <button type="button" onclick="submitQuiz()">Submit Quiz</button>
+    </div>
+
+    <div id="resultPage" class="hidden">
+        <h2>🎉 Your Test Result</h2>
+        <p id="result" aria-live="polite"></p>
+        <button type="button" onclick="goHome()">Take Another Test</button>
+    </div>
+</main>
+
+<script>
+let users = JSON.parse(localStorage.getItem('aasraa_users')) || [];
+let currentUser = null;
+let currentTopic = '';
+let score = 0;
+let timerInterval;
+let timeLeft = 600;
+
+// TOTAL 60 QUESTIONS
+const quizData = {
+    html: [
+        {q:"What does HTML stand for?", opts:["Hyper Text Markup Language","High Tech Machine Language","Hyperlink Text Mark Language","Home Tool Markup Language"], ans:0},
+        {q:"Which language is primarily used to create web pages?", opts:["HTML","C++","Python","Java"], ans:0},
+        {q:"Which HTML tag is used to create a paragraph?", opts:["<p>", "<h1>", "<div>", "<span>"], ans:0},
+        {q:"Which HTML tag is used to create a hyperlink?", opts:["<a>", "<link>", "<button>", "<img>"], ans:0},
+        {q:"Which HTML tag is used to display an image?", opts:["<img>", "<picture>", "<figure>", "<canvas>"], ans:0},
+        {q:"Which HTML tag is commonly used to display bold text?", opts:["<b>","<i>","<strong>","<em>"], ans:3},
+        {q:"Which is the largest heading tag in HTML?", opts:["<h1>","<h2>","<h3>","<h6>"], ans:0},
+        {q:"Which HTML attribute is used to apply inline CSS styles?", opts:["style","css","design","class"], ans:0},
+        {q:"Which HTML tag is used to create an ordered list?", opts:["<ul>","<ol>","<li>","<list>"], ans:1},
+        {q:"Which HTML tag is used to define a table row?", opts:["<tr> (Table Row)","<td> (Table Cell)","<th> (Table Header Cell)","<table> (Table)"], ans:0},
+        {q:"Which HTML tag is used to create a form?", opts:["<form> (Creates a Form)","<input> (Creates an Input Field)","<label> (Displays a Label)","<fieldset> (Groups Form Elements)"], ans:0},
+        {q:"Which HTML tag is used to insert a line break?", opts:["<br> (Line Break)","<hr> (Horizontal Line)","<p> (Paragraph)","<div> (Division)"], ans:0},
+        {q:"Which HTML tag is used to display emphasized (italic) text?", opts:["<b> (Bold Text)","<strong> (Strong Importance)","<i> (Italic Text)","<em> (Emphasized/Italic Text)"], ans:3},
+        {q:"Which HTML tag is commonly used to create a division or section?", opts:["<div> (Division/Container)","<span> (Inline Container)","<section> (Content Section)","<article> (Independent Article)"], ans:0},
+        {q:"Which HTML tag is used to create a clickable button?", opts:["<button> (Button)","<input type='button'> (Input Button)","<a> (Hyperlink)","<label> (Form Label)"], ans:0},
+        {q:"Which HTML tag is used to embed audio content?", opts:["<audio> (Audio Player)","<video> (Video Player)","<source> (Media Source)","<embed> (Embedded Content)"], ans:0},
+        {q:"Which HTML tag is used to embed a video?", opts:["<video> (Video Player)","<audio> (Audio Player)","<iframe> (Embedded Web Page)","<embed> (Embedded Content)"], ans:0},
+        {q:"Which syntax is used to write a comment in HTML?", opts:["<!-- Comment --> (HTML Comment)","// Comment (JavaScript Comment)","/* Comment */ (CSS/JavaScript Comment)","# Comment (Python Comment)"], ans:0},
+        {q:"Which HTML tag defines the title displayed on the browser tab?", opts:["<title> (Page Title)","<head> (Document Head)","<meta> (Metadata)","<header> (Page Header)"], ans:0},
+        {q:"Which HTML tag is used to define a navigation section?", opts:["<nav> (Navigation Menu)","<header> (Page Header)","<section> (Content Section)","<menu> (Menu List)"], ans:0},
+    ],
+
+    python: [
+        {q:"Who developed the Python programming language?", opts:["Guido van Rossum","Dennis Ritchie","James Gosling","Brendan Eich"], ans:0},
+        {q:"Which function is used to display output in Python?", opts:["print()","echo()","printf()","cout"], ans:0},
+        {q:"Which symbol is used for a single-line comment in Python?", opts:["# comment","// comment","/* comment */","-- comment"], ans:0},
+        {q:"Which brackets are used to create a list in Python?", opts:["[]","()","{}","<>"], ans:0},
+        {q:"Which brackets are used to create a dictionary in Python?", opts:["{}","[]","()","<>"], ans:0},
+        {q:"Which brackets are used to create a tuple in Python?", opts:["()","[]","{}","<>"], ans:0},
+        {q:"Which function is used to accept user input in Python?", opts:["input()","scan()","read()","get()"], ans:0},
+        {q:"Which Python function returns the number of items in a string, list, or other object?", opts:["len()","length()","size()","count()"], ans:0},
+        {q:"Which keyword is used to create a 'for' loop in Python?", opts:["for","loop","repeat","while"], ans:0},
+        {q:"Which keyword is used instead of 'else if' in Python?", opts:["elif","else if","elseif","el_if"], ans:0},
+        {q:"Which keyword is used to define a function in Python?", opts:["def","function","fun","define"], ans:0},
+        {q:"Which method adds an element to a Python list?", opts:["append()","add()","push()","insert()"], ans:0},
+        {q:"What is the output of 2**3 in Python?", opts:["6","8","9","23"], ans:1},
+        {q:"Which function is used to determine the data type of a variable?", opts:["type()","typeof()","datatype()","check()"], ans:0},
+        {q:"Which function converts a string into an integer?", opts:["int()","integer()","toInt()","convert()"], ans:0},
+        {q:"Which keyword is used to exit a loop?", opts:["break","exit","stop","return"], ans:0},
+        {q:"Which method removes an element from a Python list?", opts:["remove()","delete()","pop()","clear()"], ans:0},
+        {q:"Which keyword is used to import a module?", opts:["import","include","using","require"], ans:0},
+        {q:"Which keyword is used to define a class?", opts:["class","object","def","new"], ans:0},
+        {q:"Which of the following is a mutable data type?", opts:["list","tuple","string","int"], ans:0}
+    ],
+
+    excel: [
+        {q:"Which function is used to calculate the sum of values in Microsoft Excel?", opts:["SUM()","ADD()","TOTAL()","PLUS()"], ans:0},
+        {q:"What is the keyboard shortcut to save a workbook in Microsoft Excel?", opts:["Ctrl+S","Ctrl+O","Ctrl+P","F12"], ans:0},
+        {q:"A pie chart is primarily used to show what?", opts:["Parts of whole","Comparison","Trend","Correlation"], ans:0},
+        {q:"What does VLOOKUP stand for?", opts:["Vertical Lookup","Value Lookup","View Lookup","Visual Lookup"], ans:0},
+        {q:"How do you write the cell range from A1 to A10?", opts:["A1:A10","A1-A10","A1;A10","A1 to A10"], ans:0},
+        {q:"Which function calculates the average of selected values?", opts:["AVERAGE()","AVG()","MEAN()","SUM()"], ans:0},
+        {q:"Which Excel function counts cells containing numbers?", opts:["COUNT()","COUNTA()","COUNTER()","TOTAL()"], ans:0},
+        {q:"What is the keyboard shortcut for Copy?", opts:["Ctrl+C","Ctrl+V","Ctrl+X","Ctrl+Z"], ans:0},
+        {q:"Which function returns the largest value?", opts:["MAX()","LARGE()","HIGH()","TOP()"], ans:0},
+        {q:"Which function returns the smallest value?", opts:["MIN()","SMALL()","LOW()","BOTTOM()"], ans:0},
+        {q:"What type of cell reference is $A$1 in Microsoft Excel?", opts:["Absolute Reference","Relative Reference","Mixed Reference","Normal Reference"], ans:0},
+        {q:"Which Excel function joins multiple text strings into one?", opts:["CONCAT()","JOIN()","MERGE()","ADD()"], ans:0},
+        {q:"Which ribbon tab contains formula-related commands?", opts:["Formulas","Home","Data","View"], ans:0},
+        {q:"Which Excel function checks whether a condition is TRUE or FALSE?", opts:["IF()","CONDITION()","CHECK()","WHEN()"], ans:0},
+        {q:"What is the keyboard shortcut for Paste?", opts:["Ctrl+V","Ctrl+C","Ctrl+X","Ctrl+P"], ans:0},
+        {q:"Which function is used to round numbers?", opts:["ROUND()","ROUNDDOWN()","ROUNDUP()","All of above"], ans:3},
+        {q:"Which Excel feature is used to filter data?", opts:["Data > Filter","Home > Filter","View > Filter","Formula > Filter"], ans:0},
+        {q:"Which function counts cells that meet a specified condition?", opts:["COUNTIF()","COUNT()","COUNTER()","TOTALIF()"], ans:0},
+        {q:"Which chart type is best for comparing categories?", opts:["Bar Chart","Pie Chart","Line Chart","Scatter Chart"], ans:0},
+        {q:"What is the default file extension of an Excel workbook?", opts:[".xlsx",".doc",".ppt",".csv"], ans:0}
+    ]
+};
+
+
+function shuffleQuestions(arr){
+ return [...arr].sort(()=>Math.random()-0.5);
+}
+
+function showLogin(){ document.getElementById('registerPage').classList.add('hidden'); document.getElementById('loginPage').classList.remove('hidden'); }
+function showRegister(){ document.getElementById('loginPage').classList.add('hidden'); document.getElementById('registerPage').classList.remove('hidden'); }
+function goHome(){ location.reload(); }
+
+function register(){
+    let name=document.getElementById('regName').value.trim();
+    let email=document.getElementById('regEmail').value.trim();
+    let pass=document.getElementById('regPass').value;
+    if(name=="" || email=="" || pass==""){ alert("Please fill all fields"); return; }
+    if(users.find(u=>u.email==email)){ alert("Email already registered"); return; }
+    users.push({name,email,pass});
+    localStorage.setItem('aasraa_users', JSON.stringify(users));
+    alert("Registration Successful! Now Login");
+    showLogin();
+}
+
+function login(){
+    let email=document.getElementById('logEmail').value.trim();
+    let pass=document.getElementById('logPass').value;
+    let user = users.find(u=>u.email==email && u.pass==pass);
+    if(user){ currentUser=user; document.getElementById('loginPage').classList.add('hidden'); document.getElementById('topicPage').classList.remove('hidden'); }
+    else{ alert("Invalid Email or Password"); }
+}
+
+function startTimer(){
+    timeLeft = 600;
+    timerInterval = setInterval(()=>{
+        let minutes = Math.floor(timeLeft/60);
+        let seconds = timeLeft%60;
+        document.getElementById('timer').innerText = `Time: ${minutes}:${seconds<10?'0':''}${seconds}`;
+        if(timeLeft<=0){ clearInterval(timerInterval); submitQuiz(); alert("Time's Up! Quiz Auto Submitted"); }
+        timeLeft--;
+    },1000);
+}
+
+function startQuiz(topic){
+    currentTopic = topic;
+    score = 0;
+    document.getElementById('topicPage').classList.add('hidden');
+    document.getElementById('quizPage').classList.remove('hidden');
+    const totalQuestions = quizData[topic] ? quizData[topic].length : 0;
+    document.getElementById('topicTitle').innerText = topic.toUpperCase() + " - " + totalQuestions + " Questions";
+
+    let quizBox = document.getElementById('quizBox');
+    quizBox.innerHTML = '';
+    if (!quizData[topic]) return;
+    const selectedQuestions = shuffleQuestions(quizData[topic]); document._selectedQuestions=selectedQuestions;
+selectedQuestions.forEach((item, i) => {
+        let div = document.createElement('div'); div.className = 'question';
+
+        let p = document.createElement('p');
+        let b = document.createElement('b'); b.textContent = `Q${i+1}.`;
+        p.appendChild(b);
+        p.appendChild(document.createTextNode(' ' + item.q.replace(/^\d+\.\s*/, '')));
+        div.appendChild(p);
+
+        item.opts.forEach((opt, j) => {
+            let label = document.createElement('label'); label.className = 'option';
+            let input = document.createElement('input');
+            input.type = 'radio';
+            input.name = `q${i}`;
+            input.value = j;
+            label.appendChild(input);
+            label.appendChild(document.createTextNode(' ' + opt));
+            div.appendChild(label);
+        });
+
+        quizBox.appendChild(div);
+    });
+    document.getElementById('progressBar').style.width = '0%';
+    updateProgress(); startTimer();
+}
+
+function updateProgress(){
+    if(!currentTopic || !quizData[currentTopic]) return;
+    let answered = document.querySelectorAll('input[type="radio"][name^="q"]:checked').length;
+    let total = quizData[currentTopic].length;
+    document.getElementById('progressText').innerText = `Answered: ${answered} of ${total}`;
+    document.getElementById('progressBar').style.width = `${(answered/total)*100}%`;
+}
+
+document.addEventListener('change', updateProgress);
+
+function submitQuiz(){
+    clearInterval(timerInterval);
+    score = 0;
+    const total = quizData[currentTopic] ? quizData[currentTopic].length : 0;
+    if(!quizData[currentTopic]) return;
+    const selectedQuestions = document._selectedQuestions || quizData[currentTopic];
+selectedQuestions.forEach((item, i) => {
+        let ans = document.querySelector(`input[name="q${i}"]:checked`);
+        let questionDiv = document.querySelectorAll('.question')[i];
+        let options = questionDiv.querySelectorAll('.option');
+        if(ans && parseInt(ans.value) == item.ans) {
+            score++; options[parseInt(ans.value)].classList.add('correct');
+        } else {
+            if(ans) options[parseInt(ans.value)].classList.add('wrong');
+            options[item.ans].classList.add('correct');
+        }
+    });
+    let percentage = total ? Math.round((score / total) * 100) : 0;
+    let grade = percentage >= 90? "A+ Excellent!" : percentage >= 70? "B Good Job!" : percentage >= 50? "C Pass" : "D Need Practice";
+    document.getElementById('quizPage').classList.add('hidden');
+    document.getElementById('resultPage').classList.remove('hidden');
+    document.getElementById('result').innerHTML = `
+        Student: <b>${currentUser ? currentUser.name : 'Guest'}</b><br>
+        Topic: <b>${currentTopic.toUpperCase()}</b><br>
+        Score: <b>${score} / ${total}</b><br>
+        Percentage: <b>${percentage}%</b><br>
+        Grade: <b>${grade}</b>
+    `;
+}
+</script>
+</body>
+</html>
