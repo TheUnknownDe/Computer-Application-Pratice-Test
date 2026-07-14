@@ -1,286 +1,861 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Aasraa Skillability Centre - Computer Application Test</title>
-<style>
-    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Poppins:wght@400;500;600;700&display=swap');
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Poppins', sans-serif; background: linear-gradient(135deg, #FF6B6B 0%, #4ECDC4 50%, #FFE66D 100%); min-height: 100vh; padding: 20px; display: flex; align-items: center; justify-content: center; }
- .container { max-width: 900px; width: 100%; background: white; padding: 40px; border-radius: 25px; box-shadow: 0 25px 80px rgba(0,0,0,0.3); }
- .center-heading { text-align: center; font-family: 'Montserrat', sans-serif; font-size: 38px; font-weight: 800; background: linear-gradient(90deg, #FF6B6B, #4ECDC4, #FFE66D); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 5px; }
- .quiz-heading { text-align: center; font-size: 16px; color: #FF6B6B; font-weight: 700; margin-bottom: 25px; text-transform: uppercase; }
-    h1, h2 { text-align: center; color: #2c3e50; margin-bottom: 25px; font-size: 28px; }
-    button { background: linear-gradient(135deg, #FF6B6B 0%, #4ECDC4 100%); color: white; border: none; padding: 16px 24px; border-radius: 14px; cursor: pointer; margin: 12px 0; width: 100%; font-size: 17px; font-weight: 600; }
-    input { width: 100%; padding: 14px 16px; margin: 10px 0; border: 2px solid #e0e0e0; border-radius: 12px; font-size: 16px; }
- .question { margin: 25px 0; padding: 25px; background: #f8f9fa; border-radius: 18px; border-left: 6px solid #FF6B6B; }
- .option { display:flex; align-items:flex-start; gap:12px; margin:12px 0; padding:15px 20px; background:white; border:2px solid #e0e0e0; border-radius:14px; cursor:pointer;}
-.option input[type="radio"]{width:18px;height:18px;margin:2px 0 0 0;flex-shrink:0;}
-.option{line-height:1.5;}
- .hidden { display: none; }
-    #result { font-size: 24px; font-weight: 700; text-align: center; color: #00C853; margin: 25px 0; line-height: 2; }
- .topbar { display: flex; justify-content: space-between; margin-bottom: 20px; font-weight: 600; }
- .progress-bar { width: 100%; height: 14px; background: #e0e0e0; border-radius: 10px; margin: 20px 0; }
- .progress { height: 100%; background: linear-gradient(90deg, #FF6B6B, #FFE66D); border-radius: 10px; }
- .correct { background: #C8E6C9!important; border-color: #4CAF50!important; }
- .wrong { background: #FFCDD2!important; border-color: #F44336!important; }
- .timer { color: #D50000; font-size: 20px; font-weight: 700; background: #FFEBEE; padding: 10px 18px; border-radius: 12px; }
- .topic-card { background: linear-gradient(135deg, #FF6B6B 0%, #4ECDC4 100%); color: white; padding: 28px; border-radius: 20px; margin: 18px 0; cursor: pointer; }
-    a { color: #FF6B6B; text-decoration: none; font-weight: 600; }
-    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
-</style>
-</head>
-<body>
-<main class="container" role="main">
-    <h1 class="center-heading">Aasraa Skillability Centre</h1>
-    <p class="quiz-heading">COMPUTER APPLICATION PRACTICE TEST</p>
-    <hr style="margin:20px 0;">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aasraa Skillability Centre - Computer Application Test</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Poppins:wght@400;500;600;700&display=swap');
 
-    <div id="registerPage">
-        <h2>📝 Student Registration</h2>
-        <label class="sr-only" for="regName">Full name</label>
-        <input type="text" id="regName" placeholder="Enter Your Full Name" aria-label="Full name" required>
-        <label class="sr-only" for="regEmail">Email address</label>
-        <input type="email" id="regEmail" placeholder="Enter Email Address" aria-label="Email address" required>
-        <label class="sr-only" for="regPass">Password</label>
-        <input type="password" id="regPass" placeholder="Create Password" aria-label="Password" required>
-        <button type="button" onclick="register()">Create Account</button>
-        <p style="text-align:center; margin-top:15px;">Already have account? <a href="#" onclick="showLogin()">Login Here</a></p>
-    </div>
-
-    <div id="loginPage" class="hidden">
-        <h2>🔐 Student Login</h2>
-        <label class="sr-only" for="logEmail">Login email</label>
-        <input type="email" id="logEmail" placeholder="Enter Email" aria-label="Login email" required>
-        <label class="sr-only" for="logPass">Login password</label>
-        <input type="password" id="logPass" placeholder="Enter Password" aria-label="Login password" required>
-        <button type="button" onclick="login()">Login</button>
-        <p style="text-align:center; margin-top:15px;">New Student? <a href="#" onclick="showRegister()">Register Here</a></p>
-    </div>
-
-    <div id="topicPage" class="hidden">
-        <h2>📚 Choose Any One Topic</h2>
-        <button type="button" class="topic-card" onclick="startQuiz('html')"><h2>HTML</h2><p>20 Questions • 4 Options • 10 Minutes</p></button>
-        <button type="button" class="topic-card" onclick="startQuiz('python')"><h2>Python</h2><p>20 Questions • 4 Options • 10 Minutes</p></button>
-        <button type="button" class="topic-card" onclick="startQuiz('excel')"><h2>Excel</h2><p>20 Questions • 4 Options • 10 Minutes</p></button>
-    </div>
-
-    <div id="quizPage" class="hidden">
-        <div class="topbar">
-            <span id="progressText">Answered: 0 of 20</span>
-            <span class="timer" id="timer">Time: 10:00</span>
-        </div>
-        <div class="progress-bar"><div class="progress" id="progressBar"></div></div>
-        <h2 id="topicTitle"></h2>
-        <div id="quizBox"></div>
-        <button type="button" onclick="submitQuiz()">Submit Quiz</button>
-    </div>
-
-    <div id="resultPage" class="hidden">
-        <h2>🎉 Your Test Result</h2>
-        <p id="result" aria-live="polite"></p>
-        <button type="button" onclick="goHome()">Take Another Test</button>
-    </div>
-</main>
-
-<script>
-let users = JSON.parse(localStorage.getItem('aasraa_users')) || [];
-let currentUser = null;
-let currentTopic = '';
-let score = 0;
-let timerInterval;
-let timeLeft = 600;
-
-// TOTAL 60 QUESTIONS
-const quizData = {
-    html: [
-        {q:"What does HTML stand for?", opts:["Hyper Text Markup Language","High Tech Machine Language","Hyperlink Text Mark Language","Home Tool Markup Language"], ans:0},
-        {q:"Which language is primarily used to create web pages?", opts:["HTML","C++","Python","Java"], ans:0},
-        {q:"Which HTML tag is used to create a paragraph?", opts:["<p>", "<h1>", "<div>", "<span>"], ans:0},
-        {q:"Which HTML tag is used to create a hyperlink?", opts:["<a>", "<link>", "<button>", "<img>"], ans:0},
-        {q:"Which HTML tag is used to display an image?", opts:["<img>", "<picture>", "<figure>", "<canvas>"], ans:0},
-        {q:"Which HTML tag is commonly used to display bold text?", opts:["<b>","<i>","<strong>","<em>"], ans:3},
-        {q:"Which is the largest heading tag in HTML?", opts:["<h1>","<h2>","<h3>","<h6>"], ans:0},
-        {q:"Which HTML attribute is used to apply inline CSS styles?", opts:["style","css","design","class"], ans:0},
-        {q:"Which HTML tag is used to create an ordered list?", opts:["<ul>","<ol>","<li>","<list>"], ans:1},
-        {q:"Which HTML tag is used to define a table row?", opts:["<tr> (Table Row)","<td> (Table Cell)","<th> (Table Header Cell)","<table> (Table)"], ans:0},
-        {q:"Which HTML tag is used to create a form?", opts:["<form> (Creates a Form)","<input> (Creates an Input Field)","<label> (Displays a Label)","<fieldset> (Groups Form Elements)"], ans:0},
-        {q:"Which HTML tag is used to insert a line break?", opts:["<br> (Line Break)","<hr> (Horizontal Line)","<p> (Paragraph)","<div> (Division)"], ans:0},
-        {q:"Which HTML tag is used to display emphasized (italic) text?", opts:["<b> (Bold Text)","<strong> (Strong Importance)","<i> (Italic Text)","<em> (Emphasized/Italic Text)"], ans:3},
-        {q:"Which HTML tag is commonly used to create a division or section?", opts:["<div> (Division/Container)","<span> (Inline Container)","<section> (Content Section)","<article> (Independent Article)"], ans:0},
-        {q:"Which HTML tag is used to create a clickable button?", opts:["<button> (Button)","<input type='button'> (Input Button)","<a> (Hyperlink)","<label> (Form Label)"], ans:0},
-        {q:"Which HTML tag is used to embed audio content?", opts:["<audio> (Audio Player)","<video> (Video Player)","<source> (Media Source)","<embed> (Embedded Content)"], ans:0},
-        {q:"Which HTML tag is used to embed a video?", opts:["<video> (Video Player)","<audio> (Audio Player)","<iframe> (Embedded Web Page)","<embed> (Embedded Content)"], ans:0},
-        {q:"Which syntax is used to write a comment in HTML?", opts:["<!-- Comment --> (HTML Comment)","// Comment (JavaScript Comment)","/* Comment */ (CSS/JavaScript Comment)","# Comment (Python Comment)"], ans:0},
-        {q:"Which HTML tag defines the title displayed on the browser tab?", opts:["<title> (Page Title)","<head> (Document Head)","<meta> (Metadata)","<header> (Page Header)"], ans:0},
-        {q:"Which HTML tag is used to define a navigation section?", opts:["<nav> (Navigation Menu)","<header> (Page Header)","<section> (Content Section)","<menu> (Menu List)"], ans:0},
-    ],
-
-    python: [
-        {q:"Who developed the Python programming language?", opts:["Guido van Rossum","Dennis Ritchie","James Gosling","Brendan Eich"], ans:0},
-        {q:"Which function is used to display output in Python?", opts:["print()","echo()","printf()","cout"], ans:0},
-        {q:"Which symbol is used for a single-line comment in Python?", opts:["# comment","// comment","/* comment */","-- comment"], ans:0},
-        {q:"Which brackets are used to create a list in Python?", opts:["[]","()","{}","<>"], ans:0},
-        {q:"Which brackets are used to create a dictionary in Python?", opts:["{}","[]","()","<>"], ans:0},
-        {q:"Which brackets are used to create a tuple in Python?", opts:["()","[]","{}","<>"], ans:0},
-        {q:"Which function is used to accept user input in Python?", opts:["input()","scan()","read()","get()"], ans:0},
-        {q:"Which Python function returns the number of items in a string, list, or other object?", opts:["len()","length()","size()","count()"], ans:0},
-        {q:"Which keyword is used to create a 'for' loop in Python?", opts:["for","loop","repeat","while"], ans:0},
-        {q:"Which keyword is used instead of 'else if' in Python?", opts:["elif","else if","elseif","el_if"], ans:0},
-        {q:"Which keyword is used to define a function in Python?", opts:["def","function","fun","define"], ans:0},
-        {q:"Which method adds an element to a Python list?", opts:["append()","add()","push()","insert()"], ans:0},
-        {q:"What is the output of 2**3 in Python?", opts:["6","8","9","23"], ans:1},
-        {q:"Which function is used to determine the data type of a variable?", opts:["type()","typeof()","datatype()","check()"], ans:0},
-        {q:"Which function converts a string into an integer?", opts:["int()","integer()","toInt()","convert()"], ans:0},
-        {q:"Which keyword is used to exit a loop?", opts:["break","exit","stop","return"], ans:0},
-        {q:"Which method removes an element from a Python list?", opts:["remove()","delete()","pop()","clear()"], ans:0},
-        {q:"Which keyword is used to import a module?", opts:["import","include","using","require"], ans:0},
-        {q:"Which keyword is used to define a class?", opts:["class","object","def","new"], ans:0},
-        {q:"Which of the following is a mutable data type?", opts:["list","tuple","string","int"], ans:0}
-    ],
-
-    excel: [
-        {q:"Which function is used to calculate the sum of values in Microsoft Excel?", opts:["SUM()","ADD()","TOTAL()","PLUS()"], ans:0},
-        {q:"What is the keyboard shortcut to save a workbook in Microsoft Excel?", opts:["Ctrl+S","Ctrl+O","Ctrl+P","F12"], ans:0},
-        {q:"A pie chart is primarily used to show what?", opts:["Parts of whole","Comparison","Trend","Correlation"], ans:0},
-        {q:"What does VLOOKUP stand for?", opts:["Vertical Lookup","Value Lookup","View Lookup","Visual Lookup"], ans:0},
-        {q:"How do you write the cell range from A1 to A10?", opts:["A1:A10","A1-A10","A1;A10","A1 to A10"], ans:0},
-        {q:"Which function calculates the average of selected values?", opts:["AVERAGE()","AVG()","MEAN()","SUM()"], ans:0},
-        {q:"Which Excel function counts cells containing numbers?", opts:["COUNT()","COUNTA()","COUNTER()","TOTAL()"], ans:0},
-        {q:"What is the keyboard shortcut for Copy?", opts:["Ctrl+C","Ctrl+V","Ctrl+X","Ctrl+Z"], ans:0},
-        {q:"Which function returns the largest value?", opts:["MAX()","LARGE()","HIGH()","TOP()"], ans:0},
-        {q:"Which function returns the smallest value?", opts:["MIN()","SMALL()","LOW()","BOTTOM()"], ans:0},
-        {q:"What type of cell reference is $A$1 in Microsoft Excel?", opts:["Absolute Reference","Relative Reference","Mixed Reference","Normal Reference"], ans:0},
-        {q:"Which Excel function joins multiple text strings into one?", opts:["CONCAT()","JOIN()","MERGE()","ADD()"], ans:0},
-        {q:"Which ribbon tab contains formula-related commands?", opts:["Formulas","Home","Data","View"], ans:0},
-        {q:"Which Excel function checks whether a condition is TRUE or FALSE?", opts:["IF()","CONDITION()","CHECK()","WHEN()"], ans:0},
-        {q:"What is the keyboard shortcut for Paste?", opts:["Ctrl+V","Ctrl+C","Ctrl+X","Ctrl+P"], ans:0},
-        {q:"Which function is used to round numbers?", opts:["ROUND()","ROUNDDOWN()","ROUNDUP()","All of above"], ans:3},
-        {q:"Which Excel feature is used to filter data?", opts:["Data > Filter","Home > Filter","View > Filter","Formula > Filter"], ans:0},
-        {q:"Which function counts cells that meet a specified condition?", opts:["COUNTIF()","COUNT()","COUNTER()","TOTALIF()"], ans:0},
-        {q:"Which chart type is best for comparing categories?", opts:["Bar Chart","Pie Chart","Line Chart","Scatter Chart"], ans:0},
-        {q:"What is the default file extension of an Excel workbook?", opts:[".xlsx",".doc",".ppt",".csv"], ans:0}
-    ]
-};
-
-
-function shuffleQuestions(arr){
- return [...arr].sort(()=>Math.random()-0.5);
-}
-
-function showLogin(){ document.getElementById('registerPage').classList.add('hidden'); document.getElementById('loginPage').classList.remove('hidden'); }
-function showRegister(){ document.getElementById('loginPage').classList.add('hidden'); document.getElementById('registerPage').classList.remove('hidden'); }
-function goHome(){ location.reload(); }
-
-function register(){
-    let name=document.getElementById('regName').value.trim();
-    let email=document.getElementById('regEmail').value.trim();
-    let pass=document.getElementById('regPass').value;
-    if(name=="" || email=="" || pass==""){ alert("Please fill all fields"); return; }
-    if(users.find(u=>u.email==email)){ alert("Email already registered"); return; }
-    users.push({name,email,pass});
-    localStorage.setItem('aasraa_users', JSON.stringify(users));
-    alert("Registration Successful! Now Login");
-    showLogin();
-}
-
-function login(){
-    let email=document.getElementById('logEmail').value.trim();
-    let pass=document.getElementById('logPass').value;
-    let user = users.find(u=>u.email==email && u.pass==pass);
-    if(user){ currentUser=user; document.getElementById('loginPage').classList.add('hidden'); document.getElementById('topicPage').classList.remove('hidden'); }
-    else{ alert("Invalid Email or Password"); }
-}
-
-function startTimer(){
-    timeLeft = 600;
-    timerInterval = setInterval(()=>{
-        let minutes = Math.floor(timeLeft/60);
-        let seconds = timeLeft%60;
-        document.getElementById('timer').innerText = `Time: ${minutes}:${seconds<10?'0':''}${seconds}`;
-        if(timeLeft<=0){ clearInterval(timerInterval); submitQuiz(); alert("Time's Up! Quiz Auto Submitted"); }
-        timeLeft--;
-    },1000);
-}
-
-function startQuiz(topic){
-    currentTopic = topic;
-    score = 0;
-    document.getElementById('topicPage').classList.add('hidden');
-    document.getElementById('quizPage').classList.remove('hidden');
-    const totalQuestions = quizData[topic] ? quizData[topic].length : 0;
-    document.getElementById('topicTitle').innerText = topic.toUpperCase() + " - " + totalQuestions + " Questions";
-
-    let quizBox = document.getElementById('quizBox');
-    quizBox.innerHTML = '';
-    if (!quizData[topic]) return;
-    const selectedQuestions = shuffleQuestions(quizData[topic]); document._selectedQuestions=selectedQuestions;
-selectedQuestions.forEach((item, i) => {
-        let div = document.createElement('div'); div.className = 'question';
-
-        let p = document.createElement('p');
-        let b = document.createElement('b'); b.textContent = `Q${i+1}.`;
-        p.appendChild(b);
-        p.appendChild(document.createTextNode(' ' + item.q.replace(/^\d+\.\s*/, '')));
-        div.appendChild(p);
-
-        item.opts.forEach((opt, j) => {
-            let label = document.createElement('label'); label.className = 'option';
-            let input = document.createElement('input');
-            input.type = 'radio';
-            input.name = `q${i}`;
-            input.value = j;
-            label.appendChild(input);
-            label.appendChild(document.createTextNode(' ' + opt));
-            div.appendChild(label);
-        });
-
-        quizBox.appendChild(div);
-    });
-    document.getElementById('progressBar').style.width = '0%';
-    updateProgress(); startTimer();
-}
-
-function updateProgress(){
-    if(!currentTopic || !quizData[currentTopic]) return;
-    let answered = document.querySelectorAll('input[type="radio"][name^="q"]:checked').length;
-    let total = quizData[currentTopic].length;
-    document.getElementById('progressText').innerText = `Answered: ${answered} of ${total}`;
-    document.getElementById('progressBar').style.width = `${(answered/total)*100}%`;
-}
-
-document.addEventListener('change', updateProgress);
-
-function submitQuiz(){
-    clearInterval(timerInterval);
-    score = 0;
-    const total = quizData[currentTopic] ? quizData[currentTopic].length : 0;
-    if(!quizData[currentTopic]) return;
-    const selectedQuestions = document._selectedQuestions || quizData[currentTopic];
-selectedQuestions.forEach((item, i) => {
-        let ans = document.querySelector(`input[name="q${i}"]:checked`);
-        let questionDiv = document.querySelectorAll('.question')[i];
-        let options = questionDiv.querySelectorAll('.option');
-        if(ans && parseInt(ans.value) == item.ans) {
-            score++; options[parseInt(ans.value)].classList.add('correct');
-        } else {
-            if(ans) options[parseInt(ans.value)].classList.add('wrong');
-            options[item.ans].classList.add('correct');
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
-    });
-    let percentage = total ? Math.round((score / total) * 100) : 0;
-    let grade = percentage >= 90? "A+ Excellent!" : percentage >= 70? "B Good Job!" : percentage >= 50? "C Pass" : "D Need Practice";
-    document.getElementById('quizPage').classList.add('hidden');
-    document.getElementById('resultPage').classList.remove('hidden');
-    document.getElementById('result').innerHTML = `
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #FF6B6B 0%, #4ECDC4 50%, #FFE66D 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+            background: white;
+            padding: 40px;
+            border-radius: 25px;
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.3);
+        }
+
+        .page-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            margin-bottom: 30px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eaeaea;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .brand img {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+        }
+
+        .brand-title {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .brand-title h1 {
+            font-size: 22px;
+            margin: 0;
+            color: #2c3e50;
+        }
+
+        .brand-title p {
+            margin: 0;
+            color: #777;
+            font-size: 14px;
+        }
+
+        .site-nav {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            flex-wrap: wrap;
+        }
+
+        .site-nav a {
+            color: #2c3e50;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s ease;
+        }
+
+        .site-nav a:hover {
+            color: #FF6B6B;
+        }
+
+        /* .center-heading {
+            text-align: center;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 38px;
+            font-weight: 800;
+            background: linear-gradient(90deg, #000000, #000000, #000000);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 5px; */
+        }
+
+        .quiz-heading {
+            text-align: center;
+            font-size: 16px;
+            color: #FF6B6B;
+            font-weight: 700;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+        }
+
+        h1,
+        h2 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 25px;
+            font-size: 28px;
+        }
+
+        button {
+            background: linear-gradient(135deg, #FF6B6B 0%, #4ECDC4 100%);
+            color: white;
+            border: none;
+            padding: 16px 24px;
+            border-radius: 14px;
+            cursor: pointer;
+            margin: 12px 0;
+            width: 100%;
+            font-size: 17px;
+            font-weight: 600;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px 16px;
+            margin: 10px 0;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 16px;
+        }
+
+        .question {
+            margin: 25px 0;
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 18px;
+            border-left: 6px solid #FF6B6B;
+        }
+
+        .option {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin: 12px 0;
+            padding: 15px 20px;
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 14px;
+            cursor: pointer;
+        }
+
+        .option input[type="radio"] {
+            width: 18px;
+            height: 18px;
+            margin: 2px 0 0 0;
+            flex-shrink: 0;
+        }
+
+        .option {
+            line-height: 1.5;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        #result {
+            font-size: 24px;
+            font-weight: 700;
+            text-align: center;
+            color: #00C853;
+            margin: 25px 0;
+            line-height: 2;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 14px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .progress {
+            height: 100%;
+            background: linear-gradient(90deg, #FF6B6B, #FFE66D);
+            border-radius: 10px;
+        }
+
+        .correct {
+            background: #C8E6C9 !important;
+            border-color: #4CAF50 !important;
+        }
+
+        .wrong {
+            background: #FFCDD2 !important;
+            border-color: #F44336 !important;
+        }
+
+        .timer {
+            color: #D50000;
+            font-size: 20px;
+            font-weight: 700;
+            background: #FFEBEE;
+            padding: 10px 18px;
+            border-radius: 12px;
+        }
+
+        .topic-card {
+            background: linear-gradient(135deg, #FF6B6B 0%, #4ECDC4 100%);
+            color: white;
+            padding: 28px;
+            border-radius: 20px;
+            margin: 18px 0;
+            cursor: pointer;
+        }
+
+        a {
+            color: #FF6B6B;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .placement-section {
+            margin: 28px 0 24px;
+            padding: 24px;
+            background: linear-gradient(135deg, #fff7f7 0%, #f4fcfc 100%);
+            border: 1px solid #f0dede;
+            border-radius: 20px;
+        }
+
+        .placement-section h2 {
+            margin-bottom: 8px;
+            font-size: 24px;
+        }
+
+        .placement-section p {
+            text-align: center;
+            color: #5f6c7b;
+            margin-bottom: 18px;
+        }
+
+        .placement-stats {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 18px;
+        }
+
+        .placement-pill {
+            background: #fff;
+            padding: 10px 14px;
+            border-radius: 999px;
+            box-shadow: 0 5px 16px rgba(0,0,0,0.08);
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .placement-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 16px;
+        }
+
+        .placement-card {
+            background: white;
+            border-radius: 16px;
+            padding: 16px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+            text-align: center;
+        }
+
+        .placement-card img {
+            width: 84px;
+            height: 84px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 10px;
+            border: 3px solid #FF6B6B;
+        }
+
+        .placement-card h3 {
+            font-size: 18px;
+            margin-bottom: 4px;
+            color: #2c3e50;
+        }
+
+        .company-name {
+            color: #FF6B6B;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .placement-count {
+            color: #4ECDC4;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .connect-section {
+            display: block;
+            margin-top: 24px;
+            padding: 24px;
+            background: linear-gradient(135deg, #FF6B6B 0%, #4ECDC4 100%);
+            color: white;
+            border-radius: 20px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 20px;
+            font-weight: 700;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .connect-section:hover,
+        .connect-section:focus-visible {
+            transform: translateY(-2px);
+            box-shadow: 0 18px 40px rgba(0, 0, 0, 0.18);
+        }
+
+        .connect-section span {
+            display: block;
+            margin-top: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.92);
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        .page-footer {
+            margin-top: 32px;
+            padding: 24px 20px;
+            background: #f7f9fb;
+            border: 1px solid #e6eaef;
+            border-radius: 22px;
+            text-align: center;
+        }
+
+        .footer-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 14px;
+            color: #2c3e50;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 18px;
+            flex-wrap: wrap;
+            margin-bottom: 12px;
+        }
+
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 16px;
+            background: white;
+            border: 1px solid #e0e6ef;
+            border-radius: 999px;
+            color: #2c3e50;
+            font-weight: 600;
+            text-decoration: none;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+        }
+
+        .social-links a:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 24px rgba(0,0,0,0.08);
+            border-color: #FF6B6B;
+            color: #FF6B6B;
+        }
+
+        .footer-note {
+            color: #6b7280;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+    <main class="container" role="main">
+        <header id="dashboardHeader" class="page-header hidden">
+            <div class="brand">
+                <img src="img/images-removebg-preview.png" alt="Aasraa Logo">
+                <div class="brand-title">
+                    <h1>Aasraa Skillability Centre</h1>
+                    <p>Learning | Training | Career Growth</p>
+                </div>
+            </div>
+            <nav class="site-nav" aria-label="Main navigation">
+                <a href="#">Home</a>
+                <a href="#about">About Us</a>
+                <a href="#contact">Contact Us</a>
+            </nav>
+        </header>
+        <!-- <img src="img/images-removebg-preview.png" alt="Aasraa Logo" style="display:block; margin:0 auto 20px; width:120px;">
+        <h1 class="center-heading"></h1>
+        <p class="quiz-heading">IT COURSES PRACTICE TEST</p>
+        <hr style="margin:20px 0;"> -->
+
+        <div id="registerPage">
+            <h2>Student Registration</h2>
+            <label class="sr-only" for="regName">Full name</label>
+            <input type="text" id="regName" placeholder="Enter Your Full Name" aria-label="Full name" required>
+            <label class="sr-only" for="regEmail">Email address</label>
+            <input type="email" id="regEmail" placeholder="Enter Email Address" aria-label="Email address" required>
+            <label class="sr-only" for="regPass">Password</label>
+            <input type="password" id="regPass" placeholder="Create Password" aria-label="Password" required>
+            <button type="button" onclick="register()">Create Account</button>
+            <p style="text-align:center; margin-top:15px;">Already have account? <a href="#" onclick="showLogin()">Login
+                    Here</a></p>
+        </div>
+
+        <div id="loginPage" class="hidden">
+            <h2>Student Login</h2>
+            <label class="sr-only" for="logEmail">Login email</label>
+            <input type="email" id="logEmail" placeholder="Enter Email" aria-label="Login email" required>
+            <label class="sr-only" for="logPass">Login password</label>
+            <input type="password" id="logPass" placeholder="Enter Password" aria-label="Login password" required>
+            <button type="button" onclick="login()">Login</button>
+            <p style="text-align:center; margin-top:15px;">New Student? <a href="#" onclick="showRegister()">Register
+                    Here</a></p>
+        </div>
+
+        <div id="topicPage" class="hidden">
+            <section class="placement-section" aria-labelledby="placement-heading">
+                <h2 id="placement-heading">"The more you sweat in practice the less you bleed in battle"</h2>
+                <br>
+                <p>Students trained at Aasraa are getting placed in leading companies with strong career support.</p>
+                <br><br>
+                <div class="placement-grid">
+                    <article class="placement-card">
+                        <img src="img/palak2.jpeg" width='120' height='120' alt="Student photo of Palak Gupta">
+                        <h3>Palak</h3>
+                        <p class="company-name">MAGOT</p>
+                        
+                    </article>
+                    <article class="placement-card">
+                        <img src="img/daraksha2.jpeg" width='120' height='120' alt="Student photo of Daraksha">
+                        <h3>Daraksha</h3>
+                        <p class="company-name">BERG</p>
+                        
+                    </article>
+                    <article class="placement-card">
+                        <img src="img/WhatsApp Image 2026-07-14 at 9.29.47 PM.jpeg" width='120' height='120' alt="Student photo of Shivam">
+                        <h3>Shivam Uniyal</h3>
+                        <p class="company-name">Vistarkriya Marketings Pvt. Ltd.</p>
+                        
+                    </article>
+                </div>
+            </section>
+            <h2>Choose Any One Topic</h2>
+            <button type="button" class="topic-card" onclick="startQuiz('html')">
+                <h2>HTML</h2>
+                <p>20 Questions • 4 Options • 10 Minutes</p>
+            </button>
+            <button type="button" class="topic-card" onclick="startQuiz('python')">
+                <h2>Python</h2>
+                <p>20 Questions • 4 Options • 10 Minutes</p>
+            </button>
+            <button type="button" class="topic-card" onclick="startQuiz('excel')">
+                <h2>Excel</h2>
+                <p>20 Questions • 4 Options • 10 Minutes</p>
+            </button>
+            <button type="button" class="topic-card" onclick="startQuiz('tallyprime')">
+                <h2>Tally Prime</h2>
+                <p>20 Questions • 4 Options • 10 Minutes</p>
+            </button>
+            <button type="button" class="topic-card" onclick="startQuiz('basiccomputer')">
+                <h2>Basic Computer</h2>
+                <p>20 Questions • 4 Options • 10 Minutes</p>
+            </button>
+            <button type="button" class="topic-card" onclick="startQuiz('softskills')">
+                <h2>Soft Skills</h2>
+                <p>20 Questions • 4 Options • 10 Minutes</p>
+            </button>
+
+            <a class="connect-section" href="https://docs.google.com/forms/d/e/1FAIpQLSdg7b4d9En8vqbSx22qwZxTY9A7TwOzppHMKntQKEHMikf3aQ/viewform" target="_blank" rel="noopener noreferrer">
+                Connect with us • Admission Open
+                <span>Click here to go directly to the admission form</span>
+            </a>
+            
+            
+            <a class="connect-section" href="https://aasraatrust.org" target="_blank" rel="noopener noreferrer" >
+                Visit Aasraa Trust
+                <span>To know more about us, visit Aasraa Trust.</span>
+            </a>
+        </div>
+
+        <div id="quizPage" class="hidden">
+            <div class="topbar">
+                <span id="progressText">Answered: 0 of 20</span>
+                <span class="timer" id="timer">Time: 10:00</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress" id="progressBar"></div>
+            </div>
+            <h2 id="topicTitle"></h2>
+            <div id="quizBox"></div>
+            <button type="button" onclick="submitQuiz()">Submit Quiz</button>
+        </div>
+
+        <div id="resultPage" class="hidden">
+            <h2>Your Test Result</h2>
+            <p id="result" aria-live="polite"></p>
+            <button type="button" onclick="showTopics()">Back to Topics</button>
+        </div>
+
+        <footer id="dashboardFooter" class="page-footer hidden">
+            <div class="footer-title">Connect with us on social media</div>
+            <div class="social-links">
+                <a href="https://www.facebook.com/aasraa.trust/" target="_blank" rel="noopener noreferrer">Facebook</a>
+                <a href="https://www.instagram.com/aasraatrust/?hl=en" target="_blank" rel="noopener noreferrer">Instagram</a>
+                <a href="https://www.linkedin.com/company/aasraa-trust/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                <!-- <a href="communication@aasraatrust.org" target="_blank" rel="noopener noreferrer">E-mail</a> -->
+            </div>
+            
+        </footer>
+    </main>
+
+    <script>
+        let users = JSON.parse(localStorage.getItem('aasraa_users')) || [];
+        let currentUser = null;
+        let currentTopic = '';
+        let score = 0;
+        let timerInterval;
+        let timeLeft = 600;
+
+        // TOTAL 60 QUESTIONS
+        const quizData = {
+            html: [
+                { q: "What does HTML stand for?", opts: ["Hyper Text Markup Language", "High Tech Machine Language", "Hyperlink Text Mark Language", "Home Tool Markup Language"], ans: 0 },
+                { q: "Which language is primarily used to create web pages?", opts: ["HTML", "C++", "Python", "Java"], ans: 0 },
+                { q: "Which HTML tag is used to create a paragraph?", opts: ["<p>", "<h1>", "<div>", "<span>"], ans: 0 },
+                { q: "Which HTML tag is used to create a hyperlink?", opts: ["<a>", "<link>", "<button>", "<img>"], ans: 0 },
+                { q: "Which HTML tag is used to display an image?", opts: ["<img>", "<picture>", "<figure>", "<canvas>"], ans: 0 },
+                { q: "Which HTML tag is commonly used to display bold text?", opts: ["<b>", "<i>", "<strong>", "<em>"], ans: 3 },
+                { q: "Which is the largest heading tag in HTML?", opts: ["<h1>", "<h2>", "<h3>", "<h6>"], ans: 0 },
+                { q: "Which HTML attribute is used to apply inline CSS styles?", opts: ["style", "css", "design", "class"], ans: 0 },
+                { q: "Which HTML tag is used to create an ordered list?", opts: ["<ul>", "<ol>", "<li>", "<list>"], ans: 1 },
+                { q: "Which HTML tag is used to define a table row?", opts: ["<tr> (Table Row)", "<td> (Table Cell)", "<th> (Table Header Cell)", "<table> (Table)"], ans: 0 },
+                { q: "Which HTML tag is used to create a form?", opts: ["<form> (Creates a Form)", "<input> (Creates an Input Field)", "<label> (Displays a Label)", "<fieldset> (Groups Form Elements)"], ans: 0 },
+                { q: "Which HTML tag is used to insert a line break?", opts: ["<br> (Line Break)", "<hr> (Horizontal Line)", "<p> (Paragraph)", "<div> (Division)"], ans: 0 },
+                { q: "Which HTML tag is used to display emphasized (italic) text?", opts: ["<b> (Bold Text)", "<strong> (Strong Importance)", "<i> (Italic Text)", "<em> (Emphasized/Italic Text)"], ans: 3 },
+                { q: "Which HTML tag is commonly used to create a division or section?", opts: ["<div> (Division/Container)", "<span> (Inline Container)", "<section> (Content Section)", "<article> (Independent Article)"], ans: 0 },
+                { q: "Which HTML tag is used to create a clickable button?", opts: ["<button> (Button)", "<input type='button'> (Input Button)", "<a> (Hyperlink)", "<label> (Form Label)"], ans: 0 },
+                { q: "Which HTML tag is used to embed audio content?", opts: ["<audio> (Audio Player)", "<video> (Video Player)", "<source> (Media Source)", "<embed> (Embedded Content)"], ans: 0 },
+                { q: "Which HTML tag is used to embed a video?", opts: ["<video> (Video Player)", "<audio> (Audio Player)", "<iframe> (Embedded Web Page)", "<embed> (Embedded Content)"], ans: 0 },
+                { q: "Which syntax is used to write a comment in HTML?", opts: ["<!-- Comment --> (HTML Comment)" ,"// Comment (JavaScript Comment)" ,"/* Comment */ (CSS/JavaScript Comment)" ,"# Comment (Python Comment)"], ans : 0},
+                { q: "Which HTML tag defines the title displayed on the browser tab?", opts: ["<title> (Page Title)", "<head> (Document Head)", "<meta> (Metadata)", "<header> (Page Header)"], ans: 0 },
+                { q: "Which HTML tag is used to define a navigation section?", opts: ["<nav> (Navigation Menu)", "<header> (Page Header)", "<section> (Content Section)", "<menu> (Menu List)"], ans: 0 },
+            ],
+
+            python: [
+                { q: "Who developed the Python programming language?", opts: ["Guido van Rossum", "Dennis Ritchie", "James Gosling", "Brendan Eich"], ans: 0 },
+                { q: "Which function is used to display output in Python?", opts: ["print()", "echo()", "printf()", "cout"], ans: 0 },
+                { q: "Which symbol is used for a single-line comment in Python?", opts: ["# comment", "// comment", "/* comment */", "-- comment"], ans: 0 },
+                { q: "Which brackets are used to create a list in Python?", opts: ["[]", "()", "{}", "<>"], ans: 0 },
+                { q: "Which brackets are used to create a dictionary in Python?", opts: ["{}", "[]", "()", "<>"], ans: 0 },
+                { q: "Which brackets are used to create a tuple in Python?", opts: ["()", "[]", "{}", "<>"], ans: 0 },
+                { q: "Which function is used to accept user input in Python?", opts: ["input()", "scan()", "read()", "get()"], ans: 0 },
+                { q: "Which Python function returns the number of items in a string, list, or other object?", opts: ["len()", "length()", "size()", "count()"], ans: 0 },
+                { q: "Which keyword is used to create a 'for' loop in Python?", opts: ["for", "loop", "repeat", "while"], ans: 0 },
+                { q: "Which keyword is used instead of 'else if' in Python?", opts: ["elif", "else if", "elseif", "el_if"], ans: 0 },
+                { q: "Which keyword is used to define a function in Python?", opts: ["def", "function", "fun", "define"], ans: 0 },
+                { q: "Which method adds an element to a Python list?", opts: ["append()", "add()", "push()", "insert()"], ans: 0 },
+                { q: "What is the output of 2**3 in Python?", opts: ["6", "8", "9", "23"], ans: 1 },
+                { q: "Which function is used to determine the data type of a variable?", opts: ["type()", "typeof()", "datatype()", "check()"], ans: 0 },
+                { q: "Which function converts a string into an integer?", opts: ["int()", "integer()", "toInt()", "convert()"], ans: 0 },
+                { q: "Which keyword is used to exit a loop?", opts: ["break", "exit", "stop", "return"], ans: 0 },
+                { q: "Which method removes an element from a Python list?", opts: ["remove()", "delete()", "pop()", "clear()"], ans: 0 },
+                { q: "Which keyword is used to import a module?", opts: ["import", "include", "using", "require"], ans: 0 },
+                { q: "Which keyword is used to define a class?", opts: ["class", "object", "def", "new"], ans: 0 },
+                { q: "Which of the following is a mutable data type?", opts: ["list", "tuple", "string", "int"], ans: 0 }
+            ],
+
+            excel: [
+                { q: "Which function is used to calculate the sum of values in Microsoft Excel?", opts: ["SUM()", "ADD()", "TOTAL()", "PLUS()"], ans: 0 },
+                { q: "What is the keyboard shortcut to save a workbook in Microsoft Excel?", opts: ["Ctrl+S", "Ctrl+O", "Ctrl+P", "F12"], ans: 0 },
+                { q: "A pie chart is primarily used to show what?", opts: ["Parts of whole", "Comparison", "Trend", "Correlation"], ans: 0 },
+                { q: "What does VLOOKUP stand for?", opts: ["Vertical Lookup", "Value Lookup", "View Lookup", "Visual Lookup"], ans: 0 },
+                { q: "How do you write the cell range from A1 to A10?", opts: ["A1:A10", "A1-A10", "A1;A10", "A1 to A10"], ans: 0 },
+                { q: "Which function calculates the average of selected values?", opts: ["AVERAGE()", "AVG()", "MEAN()", "SUM()"], ans: 0 },
+                { q: "Which Excel function counts cells containing numbers?", opts: ["COUNT()", "COUNTA()", "COUNTER()", "TOTAL()"], ans: 0 },
+                { q: "What is the keyboard shortcut for Copy?", opts: ["Ctrl+C", "Ctrl+V", "Ctrl+X", "Ctrl+Z"], ans: 0 },
+                { q: "Which function returns the largest value?", opts: ["MAX()", "LARGE()", "HIGH()", "TOP()"], ans: 0 },
+                { q: "Which function returns the smallest value?", opts: ["MIN()", "SMALL()", "LOW()", "BOTTOM()"], ans: 0 },
+                { q: "What type of cell reference is $A$1 in Microsoft Excel?", opts: ["Absolute Reference", "Relative Reference", "Mixed Reference", "Normal Reference"], ans: 0 },
+                { q: "Which Excel function joins multiple text strings into one?", opts: ["CONCAT()", "JOIN()", "MERGE()", "ADD()"], ans: 0 },
+                { q: "Which ribbon tab contains formula-related commands?", opts: ["Formulas", "Home", "Data", "View"], ans: 0 },
+                { q: "Which Excel function checks whether a condition is TRUE or FALSE?", opts: ["IF()", "CONDITION()", "CHECK()", "WHEN()"], ans: 0 },
+                { q: "What is the keyboard shortcut for Paste?", opts: ["Ctrl+V", "Ctrl+C", "Ctrl+X", "Ctrl+P"], ans: 0 },
+                { q: "Which function is used to round numbers?", opts: ["ROUND()", "ROUNDDOWN()", "ROUNDUP()", "All of above"], ans: 3 },
+                { q: "Which Excel feature is used to filter data?", opts: ["Data > Filter", "Home > Filter", "View > Filter", "Formula > Filter"], ans: 0 },
+                { q: "Which function counts cells that meet a specified condition?", opts: ["COUNTIF()", "COUNT()", "COUNTER()", "TOTALIF()"], ans: 0 },
+                { q: "Which chart type is best for comparing categories?", opts: ["Bar Chart", "Pie Chart", "Line Chart", "Scatter Chart"], ans: 0 },
+                { q: "What is the default file extension of an Excel workbook?", opts: [".xlsx", ".doc", ".ppt", ".csv"], ans: 0 }
+            ],
+
+            tallyprime: [
+                { q: "What is Tally Prime mainly used for?", opts: ["Accounting and business management", "Video editing", "Graphic design", "Programming"], ans: 0 },
+                { q: "Which type of business uses Tally Prime most commonly?", opts: ["Small and medium businesses", "Hospitals only", "Schools only", "Hotels only"], ans: 0 },
+                { q: "What is a ledger in Tally Prime?", opts: ["A record of financial accounts", "A type of report", "A user password", "A software update"], ans: 0 },
+                { q: "Which option is used to create a new ledger?", opts: ["Create", "Delete", "Print", "Export"], ans: 0 },
+                { q: "Which voucher is used to record sales?", opts: ["Sales voucher", "Receipt voucher", "Contra voucher", "Journal voucher"], ans: 0 },
+                { q: "Which voucher is used to record cash received from a customer?", opts: ["Receipt voucher", "Payment voucher", "Sales voucher", "Purchase voucher"], ans: 0 },
+                { q: "What does GST stand for?", opts: ["Goods and Services Tax", "General Sales Tax", "Government Service Tax", "Global Service Transfer"], ans: 0 },
+                { q: "Which feature helps track stock items in Tally?", opts: ["Inventory", "Mail", "Camera", "Browser"], ans: 0 },
+                { q: "What is the main purpose of a purchase voucher?", opts: ["Record purchases made by the business", "Send emails", "Create reports", "Delete accounts"], ans: 0 },
+                { q: "Which statement shows profit and loss?", opts: ["Profit and Loss Account", "Balance Sheet", "Day Book", "Stock Summary"], ans: 0 },
+                { q: "Which report shows the financial position of a business?", opts: ["Balance Sheet", "Cash Book", "Voucher Entry", "Ledger List"], ans: 0 },
+                { q: "What is the purpose of a journal voucher?", opts: ["Record non-cash transactions", "Create invoices", "Print receipts", "Delete company data"], ans: 0 },
+                { q: "Which option is used to print reports in Tally Prime?", opts: ["Print", "Save", "Delete", "Close"], ans: 0 },
+                { q: "What is the main use of the Day Book?", opts: ["View all transactions day-wise", "View employee list", "Edit company logo", "Create bank accounts"], ans: 0 },
+                { q: "Which feature is used to maintain customer and supplier details?", opts: ["Masters", "Reports", "Inventory", "Payroll"], ans: 0 },
+                { q: "What is a voucher in Tally Prime?", opts: ["A transaction record", "A report format", "A shortcut key", "A password"], ans: 0 },
+                { q: "Which voucher is used for fund transfer between cash and bank?", opts: ["Contra voucher", "Payment voucher", "Sales voucher", "Receipt voucher"], ans: 0 },
+                { q: "What is a company in Tally Prime?", opts: ["A business account for recording transactions", "A printed report", "A bank account", "A user role"], ans: 0 },
+                { q: "Which menu is commonly used to view financial reports?", opts: ["Reports", "Display", "Create", "Delete"], ans: 0 },
+                { q: "Why is Tally Prime useful for businesses?", opts: ["It simplifies accounting and reporting", "It designs websites", "It edits videos", "It creates presentations"], ans: 0 }
+            ],
+
+            basiccomputer: [
+                { q: "What does CPU stand for?", opts: ["Central Processing Unit", "Computer Processing Unit", "Central Program Utility", "Control Processing Unit"], ans: 0 },
+                { q: "Which device is used to input data into a computer?", opts: ["Keyboard", "Printer", "Monitor", "Speaker"], ans: 0 },
+                { q: "Which device displays output from a computer?", opts: ["Monitor", "Scanner", "Mouse", "Keyboard"], ans: 0 },
+                { q: "What is the main function of RAM?", opts: ["Temporary storage for active data", "Permanent data storage", "Printing documents", "Scanning images"], ans: 0 },
+                { q: "Which storage device is usually used for long-term data storage?", opts: ["Hard disk", "RAM", "CPU", "Cache"], ans: 0 },
+                { q: "What is the full form of BIOS?", opts: ["Basic Input Output System", "Binary Input Output System", "Base Input Output Software", "Basic Internal Operating System"], ans: 0 },
+                { q: "Which of the following is an operating system?", opts: ["Windows", "Microsoft Word", "Excel", "Photoshop"], ans: 0 },
+                { q: "What does GUI stand for?", opts: ["Graphical User Interface", "General Utility Input", "Graphic Utility Interface", "Global User Information"], ans: 0 },
+                { q: "Which key is used to delete a character to the right?", opts: ["Delete", "Backspace", "Tab", "Enter"], ans: 0 },
+                { q: "Which key is used to move to the next line?", opts: ["Enter", "Shift", "Caps Lock", "Esc"], ans: 0 },
+                { q: "What is a computer virus?", opts: ["Malicious software that harms a computer", "A hardware component", "A keyboard shortcut", "A type of monitor"], ans: 0 },
+                { q: "Which software is used to create documents?", opts: ["Word processor", "Browser", "Media player", "Compiler"], ans: 0 },
+                { q: "What is the internet?", opts: ["A global network of computers", "A computer part", "A type of memory", "A software update"], ans: 0 },
+                { q: "What does URL stand for?", opts: ["Uniform Resource Locator", "Universal Resource Link", "User Resource Locator", "Unique Resource Location"], ans: 0 },
+                { q: "Which of these is a web browser?", opts: ["Chrome", "Word", "Excel", "Paint"], ans: 0 },
+                { q: "What is the function of a printer?", opts: ["To print documents on paper", "To store data", "To scan documents", "To display video"], ans: 0 },
+                { q: "What does USB stand for?", opts: ["Universal Serial Bus", "Universal Storage Box", "User System Buffer", "Unified Software Board"], ans: 0 },
+                { q: "Which device is used to enter handwritten input?", opts: ["Digitizer", "Printer", "Speaker", "Projector"], ans: 0 },
+                { q: "What is software?", opts: ["Programs and instructions used by a computer", "A physical part of a computer", "A type of keyboard", "A network cable"], ans: 0 },
+                { q: "What does Mbps stand for?", opts: ["Megabits per second", "Megabytes per second", "Memory bits per second", "Mainboard per second"], ans: 0 }
+            ],
+
+            softskills: [
+                { q: "What is active listening?", opts: ["Paying full attention and understanding what is said", "Talking continuously", "Ignoring others", "Using only gestures"], ans: 0 },
+                { q: "Why is teamwork important?", opts: ["It helps people achieve goals together", "It creates confusion", "It avoids communication", "It reduces responsibility"], ans: 0 },
+                { q: "What is communication?", opts: ["Sharing information clearly and effectively", "Avoiding all conversation", "Writing only one word", "Ignoring feedback"], ans: 0 },
+                { q: "Which quality is important for time management?", opts: ["Prioritizing tasks", "Ignoring deadlines", "Procrastinating", "Avoiding planning"], ans: 0 },
+                { q: "What does confidence mean?", opts: ["Believing in one’s abilities", "Doubting oneself always", "Avoiding all challenges", "Ignoring others"], ans: 0 },
+                { q: "Why is punctuality important?", opts: ["It shows respect for time and commitments", "It creates delays", "It lowers productivity", "It causes confusion"], ans: 0 },
+                { q: "What is problem solving?", opts: ["Finding solutions to challenges", "Creating new problems", "Avoiding responsibility", "Ignoring issues"], ans: 0 },
+                { q: "Which behavior shows professionalism?", opts: ["Being polite and responsible", "Being rude", "Being careless", "Ignoring work"], ans: 0 },
+                { q: "What is adaptability?", opts: ["Adjusting well to change", "Resisting new ideas", "Avoiding improvement", "Ignoring feedback"], ans: 0 },
+                { q: "What is empathy?", opts: ["Understanding and caring about others’ feelings", "Ignoring others’ needs", "Being selfish", "Avoiding communication"], ans: 0 },
+                { q: "Why is body language important in communication?", opts: ["It supports the message you give", "It replaces words completely", "It prevents all conversation", "It creates confusion"], ans: 0 },
+                { q: "What is a good way to handle conflict?", opts: ["Stay calm and communicate respectfully", "Argue loudly", "Ignore the issue", "Blame others"], ans: 0 },
+                { q: "Which skill helps in building strong relationships?", opts: ["Interpersonal skill", "Only technical skill", "Speed reading", "Typing only"], ans: 0 },
+                { q: "Why is listening important?", opts: ["It helps you understand others better", "It avoids all discussion", "It makes you speak less", "It creates misunderstanding"], ans: 0 },
+                { q: "What does leadership mean?", opts: ["Guiding and motivating others", "Following everyone blindly", "Avoiding responsibility", "Ignoring team needs"], ans: 0 },
+                { q: "How can you show respect at work?", opts: ["By being polite and helpful", "By shouting", "By ignoring others", "By delaying tasks"], ans: 0 },
+                { q: "What is a positive attitude?", opts: ["Seeing opportunities and staying optimistic", "Avoiding challenges", "Complaining all the time", "Ignoring goals"], ans: 0 },
+                { q: "Why is feedback important?", opts: ["It helps improve performance", "It creates confusion", "It reduces effort", "It avoids learning"], ans: 0 },
+                { q: "What is decision making?", opts: ["Choosing the best option after thinking carefully", "Avoiding choices", "Ignoring consequences", "Following others blindly"], ans: 0 },
+                { q: "What is the best way to handle stress?", opts: ["Stay calm and manage your time wisely", "Ignore the problem", "Work without rest", "Avoid all responsibilities"], ans: 0 }
+            ]
+        };
+            
+
+        function shuffleQuestions(arr){
+    return [...arr]
+        .sort(()=>Math.random()-0.5)
+        .slice(0,20);
+}
+
+        function showLogin() {
+            document.getElementById('dashboardHeader').classList.add('hidden');
+            document.getElementById('dashboardFooter').classList.add('hidden');
+            document.getElementById('registerPage').classList.add('hidden');
+            document.getElementById('topicPage').classList.add('hidden');
+            document.getElementById('quizPage').classList.add('hidden');
+            document.getElementById('resultPage').classList.add('hidden');
+            document.getElementById('loginPage').classList.remove('hidden');
+        }
+        function showRegister() {
+            document.getElementById('dashboardHeader').classList.add('hidden');
+            document.getElementById('dashboardFooter').classList.add('hidden');
+            document.getElementById('loginPage').classList.add('hidden');
+            document.getElementById('topicPage').classList.add('hidden');
+            document.getElementById('quizPage').classList.add('hidden');
+            document.getElementById('resultPage').classList.add('hidden');
+            document.getElementById('registerPage').classList.remove('hidden');
+        }
+        function showTopics() {
+            clearInterval(timerInterval);
+            document.getElementById('dashboardHeader').classList.remove('hidden');
+            document.getElementById('dashboardFooter').classList.remove('hidden');
+            document.getElementById('loginPage').classList.add('hidden');
+            document.getElementById('registerPage').classList.add('hidden');
+            document.getElementById('quizPage').classList.add('hidden');
+            document.getElementById('resultPage').classList.add('hidden');
+            document.getElementById('topicPage').classList.remove('hidden');
+        }
+        function goHome() { showTopics(); }
+
+        function register() {
+            let name = document.getElementById('regName').value.trim();
+            let email = document.getElementById('regEmail').value.trim();
+            let pass = document.getElementById('regPass').value;
+            if (name == "" || email == "" || pass == "") { alert("Please fill all fields"); return; }
+            if (users.find(u => u.email == email)) { alert("Email already registered"); return; }
+            users.push({ name, email, pass });
+            localStorage.setItem('aasraa_users', JSON.stringify(users));
+            alert("Registration Successful! Now Login");
+            showLogin();
+        }
+
+        function login() {
+            let email = document.getElementById('logEmail').value.trim();
+            let pass = document.getElementById('logPass').value;
+            let user = users.find(u => u.email == email && u.pass == pass);
+            if (user) {
+                currentUser = user;
+                showTopics();
+            } else {
+                alert("Invalid Email or Password");
+            }
+        }
+
+        function startTimer() {
+            timeLeft = 600;
+            timerInterval = setInterval(() => {
+                let minutes = Math.floor(timeLeft / 60);
+                let seconds = timeLeft % 60;
+                document.getElementById('timer').innerText = `Time: ${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+                if (timeLeft <= 0) { clearInterval(timerInterval); submitQuiz(); alert("Time's Up! Quiz Auto Submitted"); }
+                timeLeft--;
+            }, 1000);
+        }
+
+        function startQuiz(topic) {
+            currentTopic = topic;
+            score = 0;
+            document.getElementById('dashboardFooter').classList.add('hidden');
+            document.getElementById('topicPage').classList.add('hidden');
+            document.getElementById('quizPage').classList.remove('hidden');
+            const totalQuestions = quizData[topic] ? quizData[topic].length : 0;
+            document.getElementById('topicTitle').innerText = topic.toUpperCase() + " - " + totalQuestions + " Questions";
+
+            let quizBox = document.getElementById('quizBox');
+            quizBox.innerHTML = '';
+            if (!quizData[topic]) return;
+            const selectedQuestions = shuffleQuestions(quizData[topic]); document._selectedQuestions = selectedQuestions;
+            selectedQuestions.forEach((item, i) => {
+                let div = document.createElement('div'); div.className = 'question';
+
+                let p = document.createElement('p');
+                let b = document.createElement('b'); b.textContent = `Q${i + 1}.`;
+                p.appendChild(b);
+                p.appendChild(document.createTextNode(' ' + item.q.replace(/^\d+\.\s*/, '')));
+                div.appendChild(p);
+
+                item.opts.forEach((opt, j) => {
+                    let label = document.createElement('label'); label.className = 'option';
+                    let input = document.createElement('input');
+                    input.type = 'radio';
+                    input.name = `q${i}`;
+                    input.value = j;
+                    label.appendChild(input);
+                    label.appendChild(document.createTextNode(' ' + opt));
+                    div.appendChild(label);
+                });
+
+                quizBox.appendChild(div);
+            });
+            document.getElementById('progressBar').style.width = '0%';
+            updateProgress(); startTimer();
+        }
+
+        function updateProgress() {
+            if (!currentTopic || !quizData[currentTopic]) return;
+            let answered = document.querySelectorAll('input[type="radio"][name^="q"]:checked').length;
+            let total = quizData[currentTopic].length;
+            document.getElementById('progressText').innerText = `Answered: ${answered} of ${total}`;
+            document.getElementById('progressBar').style.width = `${(answered / total) * 100}%`;
+        }
+
+        document.addEventListener('change', updateProgress);
+
+        function submitQuiz() {
+            clearInterval(timerInterval);
+            document.getElementById('dashboardFooter').classList.add('hidden');
+            const total = quizData[currentTopic] ? quizData[currentTopic].length : 0;
+            if (!quizData[currentTopic]) return;
+            const selectedQuestions = document._selectedQuestions || quizData[currentTopic];
+            const unanswered = selectedQuestions.some((item, i) => !document.querySelector(`input[name="q${i}"]:checked`));
+            if (unanswered) {
+                alert("Please answer all questions before submitting the test.");
+                return;
+            }
+            score = 0;
+            selectedQuestions.forEach((item, i) => {
+                let ans = document.querySelector(`input[name="q${i}"]:checked`);
+                let questionDiv = document.querySelectorAll('.question')[i];
+                let options = questionDiv.querySelectorAll('.option');
+                if (ans && parseInt(ans.value) == item.ans) {
+                    score++; options[parseInt(ans.value)].classList.add('correct');
+                } else {
+                    if (ans) options[parseInt(ans.value)].classList.add('wrong');
+                    options[item.ans].classList.add('correct');
+                }
+            });
+            let percentage = total ? Math.round((score / total) * 100) : 0;
+            let grade = percentage >= 90 ? "A+ Excellent!" : percentage >= 70 ? "B Good Job!" : percentage >= 50 ? "C Pass" : "D Need Practice";
+            document.getElementById('quizPage').classList.add('hidden');
+            document.getElementById('resultPage').classList.remove('hidden');
+            document.getElementById('result').innerHTML = `
         Student: <b>${currentUser ? currentUser.name : 'Guest'}</b><br>
         Topic: <b>${currentTopic.toUpperCase()}</b><br>
         Score: <b>${score} / ${total}</b><br>
         Percentage: <b>${percentage}%</b><br>
         Grade: <b>${grade}</b>
     `;
-}
-</script>
+        }
+    </script>
 </body>
+
 </html>
